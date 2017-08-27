@@ -1,21 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="viewer for CWS files">
+    <meta name="author" content="beet3d">
+    <link rel="icon" href="../../favicon.ico">
 
     <title>CWS Viewer</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/bootstrap.css' %}"/>
+    <!--{% load static %}-->
+    <!--link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/bootstrap.css' %}"/-->
 
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/cwsviewer/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../static/cwsviewer/css/narrow-jumbotron.css" rel="stylesheet">
 
 </head>
+
 <body>
 
-<div class="container-fluid">
-    <h1>CWS Viewer</h1>
-    <div id="file" class="panel panel-default">
+<div class="container">
+
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills float-right">
+                <li class="nav-item">
+                    <a class="nav-link" href="../">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/">CWS-Viewer <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </nav>
+        <h3 class="text-muted">zSlicer</h3>
+    </div>
+
+    <div class="jumbotron">
+        <div id="file" class="panel panel-default">
         <div class="panel-heading">
             <button class="panel-toggle btn btn-default btn-xs pull-right" aria-expanded="true" type="button"
                     data-toggle="collapse" data-target="#file-body">
@@ -41,9 +65,9 @@
           <h3>Print Settings :</h3>
           <div id="print_setting"></div>
         </div>
-    </div><!-- #file -->
+        </div><!-- #file -->
 
-    <div id="tpl_print_setting" style="display:none;">
+        <div id="tpl_print_setting" style="display:none;">
         <table class="table">
             <tbody>
                 <tr>
@@ -141,7 +165,15 @@
             </tbody>
         </table>
     </div>
-</div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; Beets3d China 2017</p>
+    </footer>
+
+</div> <!-- /container -->
+
+
 
 <script src="{% static 'cwsviewer/js/jquery-3.2.1.slim.min.js' %}"></script>
 <script src="{% static 'cwsviewer/js/popper.min.js' %}"></script>
