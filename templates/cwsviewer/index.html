@@ -5,18 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="viewer for CWS files">
     <meta name="author" content="beet3d">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="../../static/cwsviewer/image/favicon.png">
 
     <title>CWS Viewer</title>
-    <!--{% load static %}-->
-    <!--link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/bootstrap.css' %}"/-->
-
-
-    <!-- Bootstrap core CSS -->
-    <link href="../static/cwsviewer/css/bootstrap.css" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/bootstrap.css' %}"/>
 
     <!-- Custom styles for this template -->
-    <link href="../static/cwsviewer/css/narrow-jumbotron.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/narrow-jumbotron.css' %}">
 
 </head>
 
@@ -38,34 +34,48 @@
         <h3 class="text-muted">zSlicer</h3>
     </div>
 
-    <div class="jumbotron">
+    <div id="file-input-block" class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-auto">
+                <label class="custom-file">
+                    <input type="file" id="file" class="custom-file-input">
+                    <span class="custom-file-control"></span>
+                </label>
+            </div>
+            <div class="col col-lg-2">
+                <button id="analysis-button" class="btn btn-success" type="button">
+                    <span class="glyphicon glyphicon-align-center"></span> Analysis
+                </button>
+            </div>
+
+        </div>
+
+        <!--
         <div id="file" class="panel panel-default">
-        <div class="panel-heading">
+          <div class="panel-heading">
             <button class="panel-toggle btn btn-default btn-xs pull-right" aria-expanded="true" type="button"
                     data-toggle="collapse" data-target="#file-body">
                 <span class="glyphicon glyphicon-menu-down"></span>
             </button>
             <h3 class="panel-title">文件</h3>
-        </div>
-        <div id="file-body" class="panel-body collapse in">
+          </div>
+          <div id="file-body" class="panel-body collapse in">
             <div class="form-group">
                             <span class="btn btn-default btn-file btn-xs">
                                 浏览 <input type="file" name="file" id="file-input" accept=".stl"/>
                             </span>
             </div>
-        </div>
+          </div>-->
 
-        <button id="analysis-button" class="btn btn-success" type="button">
-            <span class="glyphicon glyphicon-align-center"></span> 分析
-        </button>
-
-        <input type="file" id="file" name="file" multiple /><br />
+    </div>
+    <br/>
+    <div class="jumbotron">
 
         <div id="result_block">
-          <h3>Print Settings :</h3>
+            <h3>Print Settings</h3>
           <div id="print_setting"></div>
         </div>
-        </div><!-- #file -->
+        <!--</div><!-- #file -->
 
         <div id="tpl_print_setting" style="display:none;">
         <table class="table">

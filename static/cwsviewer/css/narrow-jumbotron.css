@@ -74,3 +74,16 @@ body {
 .table > tbody > tr > td {
      vertical-align: middle;
 }
+
+#analysis-button {
+    line-height: 1.2;
+    text-align: center;
+    vertical-align: middle；
+    margin-left: 5 px;
+}
+
+/*
+.custom-file-control:lang(en):empty::after {
+  content: "Choose file...";
+}*/
+
