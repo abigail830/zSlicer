@@ -44,7 +44,7 @@ $("#file").on("change", function(evt) {
                 $fileContent.append(g);
             });
 
-            zipImage(zip, "testPrint_Red0239.png", function(content){
+            zipImage(zip, "cat0218.png", function(content){
                 var img = new Image;
                 img.onload = function() {
                   document.body.appendChild(this)
