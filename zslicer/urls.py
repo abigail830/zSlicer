@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from zslicer import views
 
 urlpatterns = [
     url(r'cwsviewer/', include('cwsviewer.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^$', views.home, name='index')
 ]
