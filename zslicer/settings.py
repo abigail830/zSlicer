@@ -25,7 +25,7 @@ SECRET_KEY = 'v48k*1di%uw4f1p9$pw0x6xkh$3tmp*b^z#_9s5iwg3g=msuj!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','abigail830.pythonanywhere.com']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cwsviewer',
 ]
 
 MIDDLEWARE = [
