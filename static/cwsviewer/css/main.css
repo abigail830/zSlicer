@@ -1,0 +1,3 @@
+#layer-detail .row:not(.header):hover {
+    background : yellow;
+}

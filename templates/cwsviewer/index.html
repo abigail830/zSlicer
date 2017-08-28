@@ -10,6 +10,7 @@
     <title>CWS Viewer</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/bootstrap.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/main.css' %}"/>
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/narrow-jumbotron.css' %}">
@@ -50,54 +51,37 @@
 
         </div>
 
-        <!--
-        <div id="file" class="panel panel-default">
-          <div class="panel-heading">
-            <button class="panel-toggle btn btn-default btn-xs pull-right" aria-expanded="true" type="button"
-                    data-toggle="collapse" data-target="#file-body">
-                <span class="glyphicon glyphicon-menu-down"></span>
-            </button>
-            <h3 class="panel-title">文件</h3>
-          </div>
-          <div id="file-body" class="panel-body collapse in">
-            <div class="form-group">
-                            <span class="btn btn-default btn-file btn-xs">
-                                浏览 <input type="file" name="file" id="file-input" accept=".stl"/>
-                            </span>
-            </div>
-          </div>-->
-
     </div>
     <br/>
     <div class="jumbotron">
 
         <div id="result_block">
             <h3>Print Settings</h3>
-          <div id="print_setting"></div>
+            <div id="print_setting"></div>
         </div>
         <!--</div><!-- #file -->
 
         <div id="tpl_print_setting" style="display:none;">
-        <table class="table">
-            <tbody>
+            <table class="table">
+                <tbody>
                 <tr>
-                    <th>Pix per mm X </th>
+                    <th>Pix per mm X</th>
                     <td>[[pixPerMmX]]</td>
                 </tr>
                 <tr>
-                    <th>Pix per mm Y </th>
+                    <th>Pix per mm Y</th>
                     <td>[[pixPerMmY]]</td>
                 </tr>
                 <tr>
-                    <th>X Resolution </th>
+                    <th>X Resolution</th>
                     <td>[[xResolution]]</td>
                 </tr>
                 <tr>
-                    <th>Y Resolution </th>
+                    <th>Y Resolution</th>
                     <td>[[yResolution]]</td>
                 </tr>
                 <tr>
-                    <th>Layer Thickness </th>
+                    <th>Layer Thickness</th>
                     <td>[[layerThickness]]</td>
                 </tr>
                 <tr>
@@ -109,7 +93,7 @@
                     <td>[[bottomLayersTime]]</td>
                 </tr>
                 <tr>
-                    <th>Number of Bottom Layers </th>
+                    <th>Number of Bottom Layers</th>
                     <td>[[numberOfBottomLayers]]</td>
                 </tr>
                 <tr>
@@ -143,38 +127,37 @@
                 <tr>
                     <th>Layer Actions</th>
                     <td>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col"><b>Layer#</b></div>
-                                    <div class="col"><b>ExposureTime</b></div>
-                                    <div class="col"><b>Lift Distance</b></div>
-                                    <div class="col"><b>Lift Speed</b></div>
-                                    <div class="col"><b>Lift Delay</b></div>
-                                    <div class="col"><b>Retract Distance</b></div>
-                                    <div class="col"><b>Retract Speed</b></div>
-                                    <div class="col"><b>Retract Delay</b></div>
-                                    <div class="col"><b>Process Time</b></div>
-                                </div>
-                                [[#layerActions]]
-                                <div class="row">
-                                    <div class="col">[[layerNum]]</div>
-                                    <div class="col">[[exposureTime]]</div>
-                                    <div class="col">[[liftDistance]]</div>
-                                    <div class="col">[[liftSpeed]]</div>
-                                    <div class="col">[[liftDelay]]</div>
-                                    <div class="col">[[retractDistance]]</div>
-                                    <div class="col">[[retractSpeed]]</div>
-                                    <div class="col">[[retractDelay]]</div>
-                                    <div class="col">[[processTime]]</div>
-                                </div>
-                                [[/layerActions]]
+                        <div id="layer-detail" class="container">
+                            <div class="row header">
+                                <div class="col"><b>Layer#</b></div>
+                                <div class="col"><b>ExposureTime</b></div>
+                                <div class="col"><b>Lift Distance</b></div>
+                                <div class="col"><b>Lift Speed</b></div>
+                                <div class="col"><b>Lift Delay</b></div>
+                                <div class="col"><b>Retract Distance</b></div>
+                                <div class="col"><b>Retract Speed</b></div>
+                                <div class="col"><b>Retract Delay</b></div>
+                                <div class="col"><b>Process Time</b></div>
                             </div>
+                            [[#layerActions]]
+                            <div class="row">
+                                <div class="col layerNum">[[layerNum]]</div>
+                                <div class="col">[[exposureTime]]</div>
+                                <div class="col">[[liftDistance]]</div>
+                                <div class="col">[[liftSpeed]]</div>
+                                <div class="col">[[liftDelay]]</div>
+                                <div class="col">[[retractDistance]]</div>
+                                <div class="col">[[retractSpeed]]</div>
+                                <div class="col">[[retractDelay]]</div>
+                                <div class="col">[[processTime]]</div>
+                            </div>
+                            [[/layerActions]]
+                        </div>
                     </td>
                 </tr>
-
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <footer class="footer">
@@ -182,7 +165,6 @@
     </footer>
 
 </div> <!-- /container -->
-
 
 
 <script src="{% static 'cwsviewer/js/jquery-3.2.1.slim.min.js' %}"></script>

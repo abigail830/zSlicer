@@ -7,11 +7,9 @@ $analysisButton.on('click', function(e) {
     startAnalysis();
 });
 
+$(document).ready(function(){
 
-function startAnalysis(){
-
-}
-
+});
 
 var $result = $("#result");
 $("#file").on("change", function(evt) {
@@ -42,15 +40,26 @@ $("#file").on("change", function(evt) {
                 var g = new gcode();
                 g.parseLines(content);
                 $fileContent.append(g);
+
+                $("#layer-detail .row:not(.header)").hover(function(){
+                    var layerNumber = $(this).find(".layerNum").html();
+                    while(layerNumber.length < 4) layerNumber = "0"+ layerNumber
+
+                    zipImage(zip, gcodeName.replace(".gcode", "")+layerNumber+".png", function(data){
+                        var elems = document.querySelectorAll( ":hover" );
+                        var row = $(elems[elems.length-1]).parent(".row");
+                        $(row).popover({
+                          html: true,
+                          placement: 'left',
+                          content: function(){return '<img style="width:300px;" src="'+"data:png;base64," + data + '" />';}
+                        }).popover('show');
+                    });
+                }).mouseout(function() {
+                    $(this).popover("hide");
+                });
             });
 
-            zipImage(zip, "cat0218.png", function(content){
-                var img = new Image;
-                img.onload = function() {
-                  document.body.appendChild(this)
-                }
-                img.src = "data:png;base64," + content;
-            });
+
         }, function (e) {
             $result.append($("<div>", {
                 "class" : "alert alert-danger",
@@ -85,3 +94,4 @@ function zipImage(zip, filename, callback){
     var fileContent = null
     zip.files[filename].async('base64').then(callback);
 }
+
