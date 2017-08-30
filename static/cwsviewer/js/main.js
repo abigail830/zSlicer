@@ -1,4 +1,6 @@
 
+$.fn.editable.defaults.mode = 'inline';
+
 var $file = $('#file');
 
 var $analysisButton       = $file.find('#analysis-button');
@@ -7,7 +9,7 @@ $analysisButton.on('click', function(e) {
     startAnalysis();
 });
 
-$(document).ready(function(){
+$(function(){
 
 });
 
@@ -42,7 +44,7 @@ $("#file").on("change", function(evt) {
                 $fileContent.append(g);
 
                 $("#layer-detail .row:not(.header)").hover(function(){
-                    var layerNumber = $(this).find(".layerNum").html();
+                    var layerNumber = $(this).find(".layerNum").html().trim();
                     while(layerNumber.length < 4) layerNumber = "0"+ layerNumber
 
                     zipImage(zip, gcodeName.replace(".gcode", "")+layerNumber+".png", function(data){
@@ -51,11 +53,18 @@ $("#file").on("change", function(evt) {
                         $(row).popover({
                           html: true,
                           placement: 'left',
-                          content: function(){return '<img style="width:300px;" src="'+"data:png;base64," + data + '" />';}
+                          content: function(){return '<img style="width:250px;" src="'+"data:png;base64," + data + '" />';}
                         }).popover('show');
                     });
                 }).mouseout(function() {
                     $(this).popover("hide");
+                });
+
+                $('.editable').editable({
+                    type: 'text',
+                    success: function(response, newValue) {
+                        alert(newValue)
+                    }
                 });
             });
 

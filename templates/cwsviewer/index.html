@@ -10,6 +10,7 @@
     <title>CWS Viewer</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/bootstrap.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/bootstrap-editable.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/main.css' %}"/>
 
     <!-- Custom styles for this template -->
@@ -141,14 +142,31 @@
                             </div>
                             [[#layerActions]]
                             <div class="row">
-                                <div class="col layerNum">[[layerNum]]</div>
-                                <div class="col">[[exposureTime]]</div>
-                                <div class="col">[[liftDistance]]</div>
-                                <div class="col">[[liftSpeed]]</div>
-                                <div class="col">[[liftDelay]]</div>
-                                <div class="col">[[retractDistance]]</div>
-                                <div class="col">[[retractSpeed]]</div>
-                                <div class="col">[[retractDelay]]</div>
+                                <div class="col layerNum">
+                                    [[layerNum]]
+                                </div>
+                                <div class="col">
+                                    <input id="exp_time_[[layerNum]]" type="text" style="width:100px;" value="[[exposureTime]]">
+                                </div>
+                                <div class="col">
+                                    <input id="lift_dis_[[layerNum]]" type="text" style="width:60px;" value="[[liftDistance]]">
+                                </div>
+                                <div class="col">
+                                    <input id="lift_speed_[[layerNum]]" type="text" style="width:60px;" value="[[liftSpeed]]">
+                                </div>
+                                <div class="col">
+                                    <input id="lift_delay_[[layerNum]]" type="text" style="width:70px;" value="[[liftDelay]]">
+                                </div>
+                                <div class="col">
+                                    <input id="retr_dis_[[layerNum]]" type="text" style="width:60px;" value="[[retractDistance]]">
+                                </div>
+                                <div class="col">
+                                    <input id="retr_speed_[[layerNum]]" type="text" style="width:60px;" value="[[retractSpeed]]">
+                                </div>
+                                <div class="col">
+                                     <input id="reta_delay_[[layerNum]]" type="text" style="width:60px;" value="[[retractDelay]]">
+
+                                </div>
                                 <div class="col">[[processTime]]</div>
                             </div>
                             [[/layerActions]]
@@ -170,6 +188,7 @@
 <script src="{% static 'cwsviewer/js/jquery-3.2.1.slim.min.js' %}"></script>
 <script src="{% static 'cwsviewer/js/popper.min.js' %}"></script>
 <script src="{% static 'cwsviewer/js/bootstrap.js' %}"></script>
+<script src="{% static 'cwsviewer/js/bootstrap-editable.min.js' %}"></script>
 <script src="{% static 'cwsviewer/js/mustache.min.js' %}"></script>
 <script src="{% static 'cwsviewer/js/cws.js' %}"></script>
 <script src="{% static 'cwsviewer/js/main.js' %}"></script>

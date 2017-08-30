@@ -100,7 +100,7 @@ function gcode(){
 
         var sum = 0;
         for(var i=0; i<this.layerActions.length;i++){
-            sum += this.layerActions[i].processTime;
+            sum += this.layerActions[i].processTime?this.layerActions[i].processTime:0;
         }
         this.totalProcessTime = msToTime(sum);
 
@@ -155,14 +155,18 @@ function gcode(){
         action.blankAfterExposure = exposureLines.length >=3 && exposureLines[3].indexOf("Blank") >0;
 
         var liftLines = liftBlock.split("\n");
-        action.liftDistance = parseFloat(liftLines[1].split(" ")[1].replace("Z", "").trim());
-        action.liftSpeed = parseFloat(liftLines[1].split(" ")[2].replace("F", "").trim());
-        action.liftDelay = parseInt(liftLines[2].replace(";<Delay> ", "").trim());
-        action.retractDistance = parseFloat(liftLines[3].split(" ")[1].replace("Z", "").trim());
-        action.retractSpeed = parseFloat(liftLines[3].split(" ")[2].replace("F", "").trim());
-        action.retractDelay = parseInt(liftLines[4].replace(";<Delay> ", "").trim());
+        var lineIdx = 1;
+        action.liftDistance = parseFloat(liftLines[lineIdx].split(" ")[1].replace("Z", "").trim());
+        action.liftSpeed = parseFloat(liftLines[lineIdx].split(" ")[2].replace("F", "").trim());
+        if(liftLines[2].indexOf("<Delay>") > 0){
+            action.liftDelay = parseInt(liftLines[++lineIdx].replace(";<Delay> ", "").trim());
+        }
 
-        action.processTime = action.exposureTime + action.liftDelay + action.retractDelay;
+        action.retractDistance = parseFloat(liftLines[++lineIdx].split(" ")[1].replace("Z", "").trim());
+        action.retractSpeed = parseFloat(liftLines[lineIdx].split(" ")[2].replace("F", "").trim());
+        action.retractDelay = parseInt(liftLines[++lineIdx].replace(";<Delay> ", "").trim());
+
+        action.processTime = action.exposureTime + (action.liftDelay?action.liftDelay:0) + (action.retractDelay?action.retractDelay:0);
         return action;
     }
 
