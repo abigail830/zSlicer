@@ -11,10 +11,11 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/bootstrap.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/bootstrap-editable.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/main.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/font-awesome.min.css' %}"/>
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/narrow-jumbotron.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/main.css' %}"/>
 
 </head>
 
@@ -37,144 +38,189 @@
     </div>
 
     <div id="file-input-block" class="container">
+
         <div class="row justify-content-md-center">
-            <div class="col-12 col-md-auto">
+            <div class="col-md-5">
+                <h5 class="file-input-header">Please select the .cws file: </h5>
+            </div>
+            <div class="col-md-4">
                 <label class="custom-file">
                     <input type="file" id="file" class="custom-file-input">
                     <span class="custom-file-control"></span>
                 </label>
             </div>
-            <div class="col col-lg-2">
-                <button id="analysis-button" class="btn btn-success" type="button">
-                    <span class="glyphicon glyphicon-align-center"></span> Analysis
+            <div class="col-md-1">
+                <button id="reset-button" class="btn btn-warning" type="button">
+                    <span class="glyphicon glyphicon-align-center"></span> Reset
                 </button>
             </div>
-
+            <div class="col-md-2"></div>
         </div>
 
     </div>
     <br/>
-    <div class="jumbotron">
+    <div class="jumbotron" id="result_block">
 
-        <div id="result_block">
-            <h3>Print Settings</h3>
-            <div id="print_setting"></div>
+        <div id="loading">
+            <img id="loading-image" src="../../static/cwsviewer/image/loading.gif"/>
         </div>
-        <!--</div><!-- #file -->
 
-        <div id="tpl_print_setting" style="display:none;">
-            <table class="table">
-                <tbody>
-                <tr>
-                    <th>Pix per mm X</th>
-                    <td>[[pixPerMmX]]</td>
-                </tr>
-                <tr>
-                    <th>Pix per mm Y</th>
-                    <td>[[pixPerMmY]]</td>
-                </tr>
-                <tr>
-                    <th>X Resolution</th>
-                    <td>[[xResolution]]</td>
-                </tr>
-                <tr>
-                    <th>Y Resolution</th>
-                    <td>[[yResolution]]</td>
-                </tr>
-                <tr>
-                    <th>Layer Thickness</th>
-                    <td>[[layerThickness]]</td>
-                </tr>
-                <tr>
-                    <th>Exposure Time</th>
-                    <td>[[exposureTime]]</td>
-                </tr>
-                <tr>
-                    <th>Bottom Layers Time</th>
-                    <td>[[bottomLayersTime]]</td>
-                </tr>
-                <tr>
-                    <th>Number of Bottom Layers</th>
-                    <td>[[numberOfBottomLayers]]</td>
-                </tr>
-                <tr>
-                    <th>Lift Distance</th>
-                    <td>[[liftDistance]]</td>
-                </tr>
-                <tr>
-                    <th>Platform X Size</th>
-                    <td>[[platformXSize]]</td>
-                </tr>
-                <tr>
-                    <th>Platform Y Size</th>
-                    <td>[[platformYSize]]</td>
-                </tr>
-                <tr>
-                    <th>Platform Z Size</th>
-                    <td>[[platformZSize]]</td>
-                </tr>
-                <tr>
-                    <th>Header GCode</th>
-                    <td><textarea disabled style="width:100%;">[[headerGcode]]</textarea></td>
-                </tr>
-                <tr>
-                    <th>Footer GCode</th>
-                    <td><textarea disabled style="width:100%;">[[footerGcode]]</textarea></td>
-                </tr>
-                <tr>
-                    <th>Total Process Time</th>
-                    <td>[[totalProcessTime]]</td>
-                </tr>
-                <tr>
-                    <th>Layer Actions</th>
-                    <td>
-                        <div id="layer-detail" class="container">
-                            <div class="row header">
-                                <div class="col"><b>Layer#</b></div>
-                                <div class="col"><b>ExposureTime</b></div>
-                                <div class="col"><b>Lift Distance</b></div>
-                                <div class="col"><b>Lift Speed</b></div>
-                                <div class="col"><b>Lift Delay</b></div>
-                                <div class="col"><b>Retract Distance</b></div>
-                                <div class="col"><b>Retract Speed</b></div>
-                                <div class="col"><b>Retract Delay</b></div>
-                                <div class="col"><b>Process Time</b></div>
-                            </div>
-                            [[#layerActions]]
-                            <div class="row">
-                                <div class="col layerNum">
-                                    [[layerNum]]
-                                </div>
-                                <div class="col">
-                                    <input id="exp_time_[[layerNum]]" type="text" style="width:100px;" value="[[exposureTime]]" onchange="updateExposureTime([[layerNum]],this);">
-                                </div>
-                                <div class="col">
-                                    <input id="lift_dis_[[layerNum]]" type="text" style="width:60px;" value="[[liftDistance]]">
-                                </div>
-                                <div class="col">
-                                    <input id="lift_speed_[[layerNum]]" type="text" style="width:60px;" value="[[liftSpeed]]">
-                                </div>
-                                <div class="col">
-                                    <input id="lift_delay_[[layerNum]]" type="text" style="width:70px;" value="[[liftDelay]]">
-                                </div>
-                                <div class="col">
-                                    <input id="retr_dis_[[layerNum]]" type="text" style="width:60px;" value="[[retractDistance]]">
-                                </div>
-                                <div class="col">
-                                    <input id="retr_speed_[[layerNum]]" type="text" style="width:60px;" value="[[retractSpeed]]">
-                                </div>
-                                <div class="col">
-                                     <input id="reta_delay_[[layerNum]]" type="text" style="width:60px;" value="[[retractDelay]]">
+        <div id="print_setting"></div>
 
-                                </div>
-                                <div class="col" id="proc_time_[[layerNum]]">[[processTime]]</div>
-                            </div>
-                            [[/layerActions]]
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <div role="tablist" aria-multiselectable="true" id="tpl_print_setting" style="display:none;">
+            <div class="card mb-2">
+                <div class="card-header" role="tab" id="headingOne">
+                    <h6 class="mb-0">
+                        <a data-toggle="collapse" data-parent="#tpl_print_setting" href="#collapseOne"
+                           aria-expanded="false" aria-controls="collapseOne">
+                            Basic print setting
+                        </a>
+                    </h6>
+                </div>
+
+                <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="card-block">
+                        <table class="table table-responsive table-sm">
+                            <tbody>
+                            <tr>
+                                <th>Pix per mm X</th>
+                                <td>[[pixPerMmX]]</td>
+                            </tr>
+                            <tr>
+                                <th>Pix per mm Y</th>
+                                <td>[[pixPerMmY]]</td>
+                            </tr>
+                            <tr>
+                                <th>X Resolution</th>
+                                <td>[[xResolution]]</td>
+                            </tr>
+                            <tr>
+                                <th>Y Resolution</th>
+                                <td>[[yResolution]]</td>
+                            </tr>
+                            <tr>
+                                <th>Layer Thickness</th>
+                                <td>[[layerThickness]]</td>
+                            </tr>
+                            <tr>
+                                <th>Exposure Time</th>
+                                <td>[[exposureTime]]</td>
+                            </tr>
+                            <tr>
+                                <th>Bottom Layers Time</th>
+                                <td>[[bottomLayersTime]]</td>
+                            </tr>
+                            <tr>
+                                <th>Number of Bottom Layers</th>
+                                <td>[[numberOfBottomLayers]]</td>
+                            </tr>
+                            <tr>
+                                <th>Lift Distance</th>
+                                <td>[[liftDistance]]</td>
+                            </tr>
+                            <tr>
+                                <th>Platform X Size</th>
+                                <td>[[platformXSize]]</td>
+                            </tr>
+                            <tr>
+                                <th>Platform Y Size</th>
+                                <td>[[platformYSize]]</td>
+                            </tr>
+                            <tr>
+                                <th>Platform Z Size</th>
+                                <td>[[platformZSize]]</td>
+                            </tr>
+                            <tr>
+                                <th>Header GCode</th>
+                                <td><textarea disabled style="width:100%;">[[headerGcode]]</textarea></td>
+                            </tr>
+                            <tr>
+                                <th>Footer GCode</th>
+                                <td><textarea disabled style="width:100%;">[[footerGcode]]</textarea></td>
+                            </tr>
+                            <tr>
+                                <th>Total Process Time</th>
+                                <td>[[totalProcessTime]]</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-2">
+                <div class="card-header" role="tab" id="headingTwo">
+                    <h6 class="mb-0">
+                        <a data-toggle="collapse" data-parent="#tpl_print_setting" href="#collapseTwo"
+                           aria-expanded="false" aria-controls="collapseTwo">
+                            GCODE breakdown per layer
+                        </a>
+                    </h6>
+                </div>
+
+                <div id="collapseTwo" class="collapse show" role="tabpanel" aria-labelledby="headingTwo">
+                    <div class="card-block">
+                        <table class="table table-fixedheader table-responsive">
+                            <tbody>
+                            <tr>
+                                <th>Layer Actions</th>
+                                <td>
+                                    <div id="layer-detail" class="container">
+                                        <div class="row header">
+                                            <div class="col"><b>Layer#</b></div>
+                                            <div class="col"><b>ExposureTime</b></div>
+                                            <div class="col"><b>Lift Distance</b></div>
+                                            <div class="col"><b>Lift Speed</b></div>
+                                            <div class="col"><b>Lift Delay</b></div>
+                                            <div class="col"><b>Retract Distance</b></div>
+                                            <div class="col"><b>Retract Speed</b></div>
+                                            <div class="col"><b>Retract Delay</b></div>
+                                            <div class="col"><b>Process Time</b></div>
+                                        </div>
+                                        [[#layerActions]]
+                                        <div class="row">
+                                            <div class="col layerNum">
+                                                [[layerNum]]
+                                            </div>
+                                            <div class="col">
+                                                <input id="exp_time_[[layerNum]]" type="text" style="width:100px;"
+                                                       value="[[exposureTime]]">
+                                            </div>
+                                            <div class="col">
+                                                <input id="lift_dis_[[layerNum]]" type="text" style="width:60px;"
+                                                       value="[[liftDistance]]">
+                                            </div>
+                                            <div class="col">
+                                                <input id="lift_speed_[[layerNum]]" type="text" style="width:60px;"
+                                                       value="[[liftSpeed]]">
+                                            </div>
+                                            <div class="col">
+                                                <input id="lift_delay_[[layerNum]]" type="text" style="width:70px;"
+                                                       value="[[liftDelay]]">
+                                            </div>
+                                            <div class="col">
+                                                <input id="retr_dis_[[layerNum]]" type="text" style="width:60px;"
+                                                       value="[[retractDistance]]">
+                                            </div>
+                                            <div class="col">
+                                                <input id="retr_speed_[[layerNum]]" type="text" style="width:60px;"
+                                                       value="[[retractSpeed]]">
+                                            </div>
+                                            <div class="col">
+                                                <input id="reta_delay_[[layerNum]]" type="text" style="width:60px;"
+                                                       value="[[retractDelay]]">
+                                            </div>
+                                            <div class="col">[[processTime]]</div>
+                                        </div>
+                                        [[/layerActions]]
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

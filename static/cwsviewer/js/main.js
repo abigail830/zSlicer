@@ -13,25 +13,35 @@ $analysisButton.on('click', function(e) {
     startAnalysis();
 });
 
-$(function(){
+var $resetButton       = $file.find('#reset-button');
+$resetButton.on('click', function(e) {
+    $result.html("");
+    $("#tpl_print_setting").removeClass("show").addClass("hidden");
+
+    $('#loading').hide();
 
 });
 
-var $result = $("#result");
+
+$(function(){
+    $('#loading').hide();
+});
+
 $("#file").on("change", function(evt) {
-    // remove content
-    $result.html("");
     // be sure to show the results
     $("#result_block").removeClass("hidden").addClass("show");
 
     // Closure to capture the file information.
     function handleFile(f) {
+
+        $('#loading').show();
+
         var $title = $("<h4>", {
             text : f.name
         });
         var $fileContent = $("<ul>");
-        $result.append($title);
-        $result.append($fileContent);
+        //$result.append($title);
+        //$result.append($fileContent);
 
         var dateBefore = new Date();
         JSZip.loadAsync(f)                                   // 1) read the Blob
@@ -72,13 +82,14 @@ $("#file").on("change", function(evt) {
                     }
                 });
             });
-
+            $('#loading').hide();
 
         }, function (e) {
+        /*
             $result.append($("<div>", {
                 "class" : "alert alert-danger",
                 text : "Error reading " + f.name + ": " + e.message
-            }));
+            }));*/
         });
     }
 

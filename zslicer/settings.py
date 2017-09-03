@@ -25,7 +25,7 @@ SECRET_KEY = 'v48k*1di%uw4f1p9$pw0x6xkh$3tmp*b^z#_9s5iwg3g=msuj!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','abigail830.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'abigail830.pythonanywhere.com', 'beets3d.pythonanywhere.com']
 
 
 # Application definition
