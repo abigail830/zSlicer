@@ -24,6 +24,9 @@ MATCH_SLICE_NUM = /;<Slice> \d/;
 
 Mustache.tags = ['[[', ']]'];
 
+LINE_SEPARATOR="\r\n";
+
+
 function render(template, target, data){
     var rendered = Mustache.render(template.html(),data);
     target.html(rendered);
@@ -41,6 +44,10 @@ function layerAction(){
     this.retractSpeed;
     this.retractDelay;
     this.processTime;
+
+    this.calcProcessTime = function(){
+        this.processTime = this.exposureTime + (this.liftDelay?this.liftDelay:0) + (this.retractDelay?this.retractDelay:0);
+    }
 }
 
 function gcode(){
@@ -57,15 +64,28 @@ function gcode(){
     this.platformYSize = 147.46; //mm
     this.platformZSize = 230; //mm
 
-    this.headerGcode = ";********** Header Start ********\nG21 ;Set units to be mm\nG91 ;Relative Positioning\nM17 ;Enable motors\n;********** Header End **********\n";
-    this.footerGcode = ";********** Footer Start ********\nG1 F100 Z5; Lift 5mm\nM18 ;Disable Motors\n;<Completed>\n;********** Footer End ********\n";
+    this.headerGcode = ";********** Header Start ********" + LINE_SEPARATOR + "G21 ;Set units to be mm"  + LINE_SEPARATOR +  "G91 ;Relative Positioning" + LINE_SEPARATOR + "M17 ;Enable motors" + LINE_SEPARATOR +  ";********** Header End **********"+LINE_SEPARATOR;
+    this.footerGcode = ";********** Footer Start ********" + LINE_SEPARATOR + "G1 F100 Z5; Lift 5mm" + LINE_SEPARATOR + "M18 ;Disable Motors" + LINE_SEPARATOR + ";<Completed>" + LINE_SEPARATOR + ";********** Footer End ********"+LINE_SEPARATOR;
     this.layerActions = new Array();
 
     this.totalProcessTime;
 
+    this.getLayerAction = function(layer){
+        return this.layerActions[layer];
+    }
+
     this.parseLines = function(content){
-        var lines = content.split('\n');
+        var lines = content.split(LINE_SEPARATOR);
+        var processPreHeader = true;
+        preHeader = "";
         for(var i = 0;i < lines.length;i++){
+            if(processPreHeader){
+                preHeader+=lines[i] + LINE_SEPARATOR;
+                if(lines[i+1].match(MATCH_HEADER_START)){
+                    processPreHeader=false;
+                }
+            }
+
             if(!matchLine(lines[i])){ // matched block
                 if(lines[i].match(MATCH_HEADER_START)){
                     var headerContent = "";
@@ -73,7 +93,7 @@ function gcode(){
                         if(lines[j].match(MATCH_HEADER_END)){
                             break;
                         }
-                        headerContent+=lines[j]+"\n";
+                        headerContent+=lines[j]+LINE_SEPARATOR;
                     }
                     this.headerGcode = headerContent;
                 }else if(lines[i].match(MATCH_FOOTER_START)){
@@ -82,7 +102,7 @@ function gcode(){
                         if(lines[j].match(MATCH_FOOTER_END)){
                             break;
                         }
-                        footerContent+=lines[j]+"\n";
+                        footerContent+=lines[j]+LINE_SEPARATOR;
                     }
                     this.footerGcode = footerContent;
                 }else if(lines[i].match(MATCH_SLICE_NUM)){
@@ -91,7 +111,7 @@ function gcode(){
                         if(lines[j].match(MATCH_SLICE_NUM) || lines[j].match(MATCH_FOOTER_START)){
                             break;
                         }
-                        sliceUnit+=lines[j]+"\n";
+                        sliceUnit+=lines[j]+LINE_SEPARATOR;
                     }
                     this.layerActions.push(parseLayerAction(sliceUnit));
                 }
@@ -105,6 +125,26 @@ function gcode(){
         this.totalProcessTime = msToTime(sum);
 
         render($("#tpl_print_setting"), $("#print_setting"), this);
+    }
+
+    this.generateGCode = function(){
+        var code = preHeader + LINE_SEPARATOR + this.headerGcode;
+        for(var i=0;i<this.layerActions.length;i++){
+            var action = this.layerActions[i];
+            code += ";<Slice> " + action.layerNum + LINE_SEPARATOR;
+            code += ";<Delay> " + action.exposureTime + LINE_SEPARATOR;
+            if(action.blankAfterExposure){
+                code += ";<Slice> Blank" + LINE_SEPARATOR;
+            }
+            code += ";********** Lift Sequence ********" + LINE_SEPARATOR;
+            code += "G1 Z" + action.liftDistance + " F" + action.liftSpeed + LINE_SEPARATOR;
+            if(action.liftDelay) code += ";<Delay> " + action.liftDelay + LINE_SEPARATOR;
+            code += "G1 Z" + action.retractDistance + " F" + action.retractSpeed + LINE_SEPARATOR;
+            if(action.retractDelay) code += ";<Delay> " + action.retractDelay + LINE_SEPARATOR;
+            code += ";********** Lift Sequence ********" + LINE_SEPARATOR;
+        }
+        code += this.footerGcode +LINE_SEPARATOR;
+        return code;
     }
 
     function removeUseless(line, regularExp){
@@ -125,7 +165,7 @@ function gcode(){
         } else if(line.match(MATCH_EXPOSURE_TIME)){
             this.exposureTime = removeUseless(line, MATCH_EXPOSURE_TIME);
         } else if(line.match(MATCH_BOTTOM_LAYERS_TIME)){
-            this.bottomLayersTime = removeUseless(line, MATCH_EXPOSURE_TIME);
+            this.bottomLayersTime = removeUseless(line, MATCH_BOTTOM_LAYERS_TIME);
         } else if(line.match(MATCH_NUMBER_OF_BOTTOM_LAYERS)){
             this.numberOfBottomLayers = removeUseless(line, MATCH_NUMBER_OF_BOTTOM_LAYERS);
         } else if(line.match(MATCH_LIFT_DISTANCE)){
@@ -154,7 +194,7 @@ function gcode(){
         action.exposureTime = parseInt(exposureLines[2].replace("<Delay> ", "").trim());
         action.blankAfterExposure = exposureLines.length >=3 && exposureLines[3].indexOf("Blank") >0;
 
-        var liftLines = liftBlock.split("\n");
+        var liftLines = liftBlock.split(LINE_SEPARATOR);
         var lineIdx = 1;
         action.liftDistance = parseFloat(liftLines[lineIdx].split(" ")[1].replace("Z", "").trim());
         action.liftSpeed = parseFloat(liftLines[lineIdx].split(" ")[2].replace("F", "").trim());
@@ -166,7 +206,7 @@ function gcode(){
         action.retractSpeed = parseFloat(liftLines[lineIdx].split(" ")[2].replace("F", "").trim());
         action.retractDelay = parseInt(liftLines[++lineIdx].replace(";<Delay> ", "").trim());
 
-        action.processTime = action.exposureTime + (action.liftDelay?action.liftDelay:0) + (action.retractDelay?action.retractDelay:0);
+        action.calcProcessTime();
         return action;
     }
 

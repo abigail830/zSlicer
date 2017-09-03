@@ -146,7 +146,7 @@
                                     [[layerNum]]
                                 </div>
                                 <div class="col">
-                                    <input id="exp_time_[[layerNum]]" type="text" style="width:100px;" value="[[exposureTime]]">
+                                    <input id="exp_time_[[layerNum]]" type="text" style="width:100px;" value="[[exposureTime]]" onchange="updateExposureTime([[layerNum]],this);">
                                 </div>
                                 <div class="col">
                                     <input id="lift_dis_[[layerNum]]" type="text" style="width:60px;" value="[[liftDistance]]">
@@ -167,7 +167,7 @@
                                      <input id="reta_delay_[[layerNum]]" type="text" style="width:60px;" value="[[retractDelay]]">
 
                                 </div>
-                                <div class="col">[[processTime]]</div>
+                                <div class="col" id="proc_time_[[layerNum]]">[[processTime]]</div>
                             </div>
                             [[/layerActions]]
                         </div>
@@ -176,6 +176,10 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <div id="save_btn" style="position: fixed;right: 10px;background-color: lightblue;text-align: center;padding: 10px;bottom:30px;display:none;">
+        <button type="button" class="btn btn-primary" onclick="saveGcode();">Save</button>
     </div>
 
     <footer class="footer">
@@ -191,6 +195,7 @@
 <script src="{% static 'cwsviewer/js/bootstrap-editable.min.js' %}"></script>
 <script src="{% static 'cwsviewer/js/mustache.min.js' %}"></script>
 <script src="{% static 'cwsviewer/js/cws.js' %}"></script>
+<script src="{% static 'cwsviewer/js/FileSaver.js' %}"></script>
 <script src="{% static 'cwsviewer/js/main.js' %}"></script>
 <script src="{% static 'cwsviewer/js/jszip.js' %}"></script>
 <script src="{% static 'cwsviewer/js/jszip-utils.js' %}"></script>

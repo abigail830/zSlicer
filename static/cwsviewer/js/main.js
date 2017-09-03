@@ -5,6 +5,10 @@ var $file = $('#file');
 
 var $analysisButton       = $file.find('#analysis-button');
 
+var g;
+
+var cwsFile;
+
 $analysisButton.on('click', function(e) {
     startAnalysis();
 });
@@ -39,9 +43,10 @@ $("#file").on("change", function(evt) {
             }));
             var gcodeName = getGcodeName(zip);
             zipFileContent(zip, gcodeName, function(content){
-                var g = new gcode();
+                g = new gcode();
                 g.parseLines(content);
                 $fileContent.append(g);
+                $("#save_btn").show();
 
                 $("#layer-detail .row:not(.header)").hover(function(){
                     var layerNumber = $(this).find(".layerNum").html().trim();
@@ -78,8 +83,9 @@ $("#file").on("change", function(evt) {
     }
 
     var files = evt.target.files;
-    for (var i = 0; i < files.length; i++) {
-        handleFile(files[i]);
+    if(files.length == 1){
+        cwsFile = files[0];
+        handleFile(cwsFile);
     }
 });
 
@@ -104,3 +110,35 @@ function zipImage(zip, filename, callback){
     zip.files[filename].async('base64').then(callback);
 }
 
+function updateExposureTime(layer, elem){
+    var exposureTime = $(elem).val();
+    var layerAction = g.getLayerAction(layer);
+    layerAction.exposureTime = parseInt(exposureTime);
+    layerAction.calcProcessTime();
+    $("#proc_time_"+layer).html(layerAction.processTime);
+    console.log(exposureTime);
+}
+
+function saveGcode(){
+    JSZip.loadAsync(cwsFile)                                   // 1) read the Blob
+        .then(function(zip) {
+            console.log(zip.files);
+            var gcodeName = getGcodeName(zip);
+            zip.remove(gcodeName);
+            zip.file(gcodeName, g.generateGCode());
+            zip.generateAsync({type:"blob",
+                compression: "DEFLATE",
+                compressionOptions: {
+                    level: 9
+                }
+            }).then(function (blob) {
+                var newFileName = cwsFile.name.replace(".cws", "_updated.cws")
+                saveAs(blob, newFileName);
+            });
+        }, function (e) {
+            $result.append($("<div>", {
+                "class" : "alert alert-danger",
+                text : "Error reading " + f.name + ": " + e.message
+            }));
+        });
+}
