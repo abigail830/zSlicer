@@ -5,3 +5,17 @@
     color: #777;
     text-align: center;
 }
+
+#collapseOne th{
+    text-align: center;
+}
+
+#collapseOne tr{
+    line-height: 13px;
+    font-size: 80%;
+}
+
+#collapseTwo tr{
+    line-height: 12px;
+    font-size: 80%;
+}

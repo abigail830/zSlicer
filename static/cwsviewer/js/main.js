@@ -4,19 +4,26 @@ $.fn.editable.defaults.mode = 'inline';
 var $file = $('#file');
 
 var $analysisButton       = $file.find('#analysis-button');
-
 $analysisButton.on('click', function(e) {
     startAnalysis();
 });
+
+var $resetButton       = $file.find('#reset-button');
+$resetButton.on('click', function(e) {
+    $result.html("");
+    $("#result_block").removeClass("show").addClass("hidden");
+
+    $('#loading').hide();
+
+});
+
 
 $(function(){
     $('#loading').hide();
 });
 
-var $result = $("#result");
 $("#file").on("change", function(evt) {
     // remove content
-    $result.html("");
     $('#loading').show();
 
     // be sure to show the results
@@ -28,8 +35,8 @@ $("#file").on("change", function(evt) {
             text : f.name
         });
         var $fileContent = $("<ul>");
-        $result.append($title);
-        $result.append($fileContent);
+        //$result.append($title);
+        //$result.append($fileContent);
 
         var dateBefore = new Date();
         JSZip.loadAsync(f)                                   // 1) read the Blob
@@ -72,10 +79,11 @@ $("#file").on("change", function(evt) {
             $('#loading').hide();
 
         }, function (e) {
+        /*
             $result.append($("<div>", {
                 "class" : "alert alert-danger",
                 text : "Error reading " + f.name + ": " + e.message
-            }));
+            }));*/
         });
     }
 
