@@ -11,7 +11,7 @@ $analysisButton.on('click', function(e) {
 var $resetButton       = $file.find('#reset-button');
 $resetButton.on('click', function(e) {
     $result.html("");
-    $("#result_block").removeClass("show").addClass("hidden");
+    $("#tpl_print_setting").removeClass("show").addClass("hidden");
 
     $('#loading').hide();
 
@@ -23,14 +23,14 @@ $(function(){
 });
 
 $("#file").on("change", function(evt) {
-    // remove content
-    $('#loading').show();
-
     // be sure to show the results
     $("#result_block").removeClass("hidden").addClass("show");
 
     // Closure to capture the file information.
     function handleFile(f) {
+
+        $('#loading').show();
+
         var $title = $("<h4>", {
             text : f.name
         });
