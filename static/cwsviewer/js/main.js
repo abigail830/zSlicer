@@ -10,13 +10,15 @@ $analysisButton.on('click', function(e) {
 });
 
 $(function(){
-
+    $('#loading').hide();
 });
 
 var $result = $("#result");
 $("#file").on("change", function(evt) {
     // remove content
     $result.html("");
+    $('#loading').show();
+
     // be sure to show the results
     $("#result_block").removeClass("hidden").addClass("show");
 
@@ -67,7 +69,7 @@ $("#file").on("change", function(evt) {
                     }
                 });
             });
-
+            $('#loading').hide();
 
         }, function (e) {
             $result.append($("<div>", {

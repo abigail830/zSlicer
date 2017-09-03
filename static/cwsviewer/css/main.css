@@ -1,3 +1,7 @@
 #layer-detail .row:not(.header):hover {
     background : yellow;
 }
+.file-input-header{
+    color: #777;
+    text-align: center;
+}

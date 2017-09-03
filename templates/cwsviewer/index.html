@@ -11,10 +11,11 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/bootstrap.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/bootstrap-editable.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/main.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/font-awesome.min.css' %}"/>
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/narrow-jumbotron.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/main.css' %}"/>
 
 </head>
 
@@ -37,18 +38,28 @@
     </div>
 
     <div id="file-input-block" class="container">
+
         <div class="row justify-content-md-center">
-            <div class="col-12 col-md-auto">
+            <div class="col-md-5">
+                <h5 class="file-input-header">Please select the .cws file: </h5>
+            </div>
+            <div class="col-md-4">
                 <label class="custom-file">
                     <input type="file" id="file" class="custom-file-input">
                     <span class="custom-file-control"></span>
                 </label>
             </div>
-            <div class="col col-lg-2">
+            <!--<div class="col-md-1">
                 <button id="analysis-button" class="btn btn-success" type="button">
                     <span class="glyphicon glyphicon-align-center"></span> Analysis
                 </button>
+            </div>-->
+            <div class="col-md-1">
+                <button id="reset-button" class="btn btn-success" type="button">
+                    <span class="glyphicon glyphicon-align-center"></span> Reset
+                </button>
             </div>
+            <div class="col-md-2"></div>
 
         </div>
 
@@ -56,8 +67,12 @@
     <br/>
     <div class="jumbotron">
 
+        <div id="loading">
+            <img id="loading-image" src="../../static/cwsviewer/image/loading.gif"/>
+        </div>
+
         <div id="result_block">
-            <h3>Print Settings</h3>
+            <!--<h3>Print Settings</h3>-->
             <div id="print_setting"></div>
         </div>
         <!--</div><!-- #file -->
