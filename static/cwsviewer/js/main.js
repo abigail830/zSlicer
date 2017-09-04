@@ -13,23 +13,21 @@ $analysisButton.on('click', function(e) {
     startAnalysis();
 });
 
-var $resetButton       = $file.find('#reset-button');
-$resetButton.on('click', function(e) {
-    $result.html("");
-    $("#tpl_print_setting").removeClass("show").addClass("hidden");
 
+function do_reset(){
+    $('#result_block').hide();
     $('#loading').hide();
-
-});
+}
 
 
 $(function(){
     $('#loading').hide();
+    $('#result_block').hide();
 });
 
 $("#file").on("change", function(evt) {
-    // be sure to show the results
-    $("#result_block").removeClass("hidden").addClass("show");
+
+    $('#result_block').show();
 
     // Closure to capture the file information.
     function handleFile(f) {
@@ -98,6 +96,8 @@ $("#file").on("change", function(evt) {
         cwsFile = files[0];
         handleFile(cwsFile);
     }
+
+    this.value = null;
 });
 
 
