@@ -19,3 +19,12 @@
     line-height: 12px;
     font-size: 80%;
 }
+
+#breakdownTable {
+    height: 300px;
+    overflow: auto;
+}
+
+#breakdownTableHeader {
+    height: 30px;
+}
