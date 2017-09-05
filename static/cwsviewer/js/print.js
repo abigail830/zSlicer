@@ -1,4 +1,5 @@
-
+var serverAddress = "http://192.168.199.109/";
+var printerName = "Photocentric%2010";
 
 function do_print_reset(){
     $('#print_loading').hide();
@@ -7,6 +8,26 @@ function do_print_reset(){
 
 function do_print(){
     alert("here in do_print");
+}
+
+function move(dimension, step) {
+	$.get(serverAddress+"services/printers/move" + dimension + "/" +printerName + "/" + step).then(gCodeSuccess, errorFunction);
+}
+
+function home(dimension){
+    $.get(serverAddress+"services/printers/home" + dimension + "/" + printerName).then(gCodeSuccess, errorFunction)
+}
+
+function moveZ(step){
+    move("Z", step);
+}
+
+function homeZ(){
+    home("Z");
+}
+
+function executeGCode(gcode, gCodeSuccess, errorFunction){
+    $http.get("services/printers/executeGCode/" + printerName + "/" + gcode).then(gCodeSuccess, errorFunction)
 }
 
 $(function(){
@@ -26,10 +47,10 @@ $("#print_file").on("change", function(evt) {
 
             zipFileContent(zip, gcodeName, function(content){
 
-                //g = new gcode();
-                //g.parseLines(content);
 
-                 var layerNumber = "0001";
+                g = new gcode();
+                g.parseLines(content);
+                var layerNumber = "0001";
 
                 zipImage(zip, gcodeName.replace(".gcode", "")+layerNumber+".png", function(data){
                         var img = document.createElement("IMG");

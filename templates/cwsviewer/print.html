@@ -79,6 +79,30 @@
         </div>
     </div>
 
+    <div class="list-group-item">
+        <i class="fa fa-2x fa-arrows-v pull-left"></i>
+        <h4>Z Axis</h4>
+        <span class="btn-group-vertical clearfix" style="display:inline-grid;">
+						<span class="btn btn-sm btn-danger fa fa-angle-double-up"
+                              onclick="moveZ(50)"> 50</span>
+						<span class="btn btn-sm btn-danger fa fa-angle-up"
+                              onclick="moveZ(10)"> 10</span>
+						<span class="btn btn-sm btn-danger fa fa-angle-up"
+                              onclick="moveZ(1)"> 1</span>
+						<span class="btn btn-sm btn-danger fa fa-angle-up"
+                              onclick="moveZ(.025)"> .025</span>
+						<span class="btn btn-sm btn-primary fa fa-home"
+                              onclick="homeZ()"></span>
+						<span class="btn btn-sm btn-success fa fa-angle-down"
+                              onclick="moveZ(-.025)"> .025</span>
+						<span class="btn btn-sm btn-success fa fa-angle-down"
+                              onclick="moveZ(-1)"> 1</span>
+						<span class="btn btn-sm btn-success fa fa-angle-down"
+                              onclick="moveZ(-10)"> 10</span>
+						<span class="btn btn-sm btn-success fa fa-angle-double-down"
+                              onclick="moveZ(-50)"> 50</span>
+					</span>
+    </div>
     <footer class="footer">
         <p>&copy; Beets3d China 2017</p>
     </footer>
@@ -86,7 +110,7 @@
 </div> <!-- /container -->
 
 
-<script src="{% static 'cwsviewer/js/jquery-3.2.1.slim.min.js' %}"></script>
+<script src="{% static 'cwsviewer/js/jquery-3.2.1.min.js' %}"></script>
 <script src="{% static 'cwsviewer/js/popper.min.js' %}"></script>
 <script src="{% static 'cwsviewer/js/bootstrap.js' %}"></script>
 <script src="{% static 'cwsviewer/js/bootstrap-editable.min.js' %}"></script>
