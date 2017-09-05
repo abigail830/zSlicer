@@ -159,8 +159,9 @@
                 </div>
 
                 <div id="collapseTwo" class="collapse show" role="tabpanel" aria-labelledby="headingTwo">
-                    <div class="card-block" id="breakdownTable">
-                        <table class="table table-fixedheader table-responsive">
+                    <div class="card-block">
+                        <div id="breakdownTable">
+                            <table class="table table-fixedheader table-responsive">
                             <tbody>
                             <tr>
                                 <th>Layer Actions</th>
@@ -218,13 +219,14 @@
                             </tr>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="save_btn" style="position: fixed;right: 10px;background-color: lightblue;text-align: center;padding: 10px;bottom:30px;display:none;">
+    <div id="save_btn">
         <button type="button" class="btn btn-primary" onclick="saveGcode();">Save</button>
     </div>
 

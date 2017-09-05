@@ -28,3 +28,13 @@
 #breakdownTableHeader {
     height: 30px;
 }
+
+#save_btn {
+    position: fixed;
+    right: 10px;
+    background-color: lightblue;
+    text-align: center;
+    padding: 10px;
+    bottom:30px;
+    display:none;
+}

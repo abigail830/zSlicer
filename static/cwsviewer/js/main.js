@@ -17,12 +17,12 @@ $analysisButton.on('click', function(e) {
 function do_reset(){
     $('#result_block').hide();
     $('#loading').hide();
+    $("#save_btn").hide();
 }
 
 
 $(function(){
-    $('#loading').hide();
-    $('#result_block').hide();
+    do_reset();
 });
 
 $("#file").on("change", function(evt) {
