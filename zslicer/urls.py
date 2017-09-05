@@ -19,6 +19,7 @@ from zslicer import views
 
 urlpatterns = [
     url(r'cwsviewer/', include('cwsviewer.urls')),
+    url(r'print/', include('print.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name='index')
 ]

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="viewer for CWS files">
+    <meta name="author" content="beet3d">
+    <link rel="icon" href="../../static/cwsviewer/image/favicon.png">
+
+    <title>CWS Viewer</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/bootstrap.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/bootstrap-editable.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/font-awesome.min.css' %}"/>
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/narrow-jumbotron.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/main.css' %}"/>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills float-right">
+                <li class="nav-item">
+                    <a class="nav-link" href="../">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../cwsviewer">CWS-Viewer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/"> Print<span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </nav>
+        <h3 class="text-muted">zSlicer</h3>
+    </div>
+
+    <div id="file-input-block" class="container">
+
+        <div class="row justify-content-md-center">
+            <div class="col-md-5">
+                <h5 class="file-input-header">Please select the .cws file: </h5>
+            </div>
+            <div class="col-md-4">
+                <label class="custom-file">
+                    <input type="file" id="file" class="custom-file-input">
+                    <span class="custom-file-control"></span>
+                </label>
+            </div>
+            <div class="col-md-1">
+                <button id="print-button" class="btn btn-success" type="button" onclick="do_print()">
+                    <span class="glyphicon glyphicon-align-center"></span> Print
+                </button>
+            </div>
+            <div class="col-md-1">
+                <button id="reset-button" class="btn btn-warning" type="button" onclick="do_print_reset()">
+                    <span class="glyphicon glyphicon-align-center"></span> Reset
+                </button>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <br/>
+    </div>
+    <br/>
+
+    <div class="jumbotron" id="result_block">
+
+        <div id="loading">
+            <img id="loading-image" src="../../static/cwsviewer/image/loading.gif"/>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; Beets3d China 2017</p>
+    </footer>
+
+</div> <!-- /container -->
+
+
+<script src="{% static 'cwsviewer/js/jquery-3.2.1.slim.min.js' %}"></script>
+<script src="{% static 'cwsviewer/js/popper.min.js' %}"></script>
+<script src="{% static 'cwsviewer/js/bootstrap.js' %}"></script>
+<script src="{% static 'cwsviewer/js/bootstrap-editable.min.js' %}"></script>
+<script src="{% static 'cwsviewer/js/mustache.min.js' %}"></script>
+<script src="{% static 'cwsviewer/js/cws.js' %}"></script>
+<script src="{% static 'cwsviewer/js/FileSaver.js' %}"></script>
+<script src="{% static 'cwsviewer/js/main.js' %}"></script>
+<script src="{% static 'cwsviewer/js/jszip.js' %}"></script>
+<script src="{% static 'cwsviewer/js/jszip-utils.js' %}"></script>
+<script src="{% static 'cwsviewer/js/print.js' %}"></script>
+</body>
+</html>
