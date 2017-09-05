@@ -74,15 +74,12 @@
             <img id="loading-image" src="../../static/cwsviewer/image/loading.gif"/>
         </div>
 
-        <div id="pngDisplay">
-
-        </div>
-    </div>
-
-    <div class="list-group-item">
-        <i class="fa fa-2x fa-arrows-v pull-left"></i>
-        <h4>Z Axis</h4>
-        <span class="btn-group-vertical clearfix" style="display:inline-grid;">
+        <div class="row">
+            <div class="col-2">
+                <div class="list-group-item">
+                    <i class="fa fa-2x fa-arrows-v pull-left"></i>
+                    <h4>Z Axis</h4>
+                    <span class="btn-group-vertical clearfix" style="display:inline-grid;">
 						<span class="btn btn-sm btn-danger fa fa-angle-double-up"
                               onclick="moveZ(50)"> 50</span>
 						<span class="btn btn-sm btn-danger fa fa-angle-up"
@@ -101,8 +98,19 @@
                               onclick="moveZ(-10)"> 10</span>
 						<span class="btn btn-sm btn-success fa fa-angle-double-down"
                               onclick="moveZ(-50)"> 50</span>
-					</span>
+                    </span>
+                </div>
+            </div>
+            <div class="col-10">
+                <div id="pngDisplay">
+                </div>
+
+            </div>
+
+        </div>
     </div>
+
+
     <footer class="footer">
         <p>&copy; Beets3d China 2017</p>
     </footer>

@@ -39,7 +39,8 @@
     display:none;
 }
 
-#pngDisplay {
-    height: 1024px;
-    width: 768px;
+#current_png {
+    height: auto;
+    width: 90%;
+    object-fit: contain;
 }

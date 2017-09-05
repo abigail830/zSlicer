@@ -48,13 +48,14 @@ $("#print_file").on("change", function(evt) {
             zipFileContent(zip, gcodeName, function(content){
 
 
-                g = new gcode();
-                g.parseLines(content);
+                //g = new gcode();
+                //g.parseLines(content);
                 var layerNumber = "0001";
 
                 zipImage(zip, gcodeName.replace(".gcode", "")+layerNumber+".png", function(data){
                         var img = document.createElement("IMG");
                         img.src = "data:image/png;base64," + data;
+                        img.id = "current_png";
                         document.getElementById('pngDisplay').appendChild(img);
                 })
 
