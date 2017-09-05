@@ -38,3 +38,8 @@
     bottom:30px;
     display:none;
 }
+
+#pngDisplay {
+    height: 1024px;
+    width: 768px;
+}
