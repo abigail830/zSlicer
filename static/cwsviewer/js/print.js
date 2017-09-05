@@ -1,5 +1,4 @@
-var serverAddress = "http://192.168.199.109/";
-var printerName = "Photocentric%2010";
+var blankPng = createBlankPng(1333, 750);
 
 function do_print_reset(){
     $('#print_loading').hide();
@@ -13,27 +12,10 @@ function do_print_reset(){
 
 
 function do_print(){
-    alert("here in do_print");
-}
-
-function move(dimension, step) {
-	$.get(serverAddress+"services/printers/move" + dimension + "/" +printerName + "/" + step).then(gCodeSuccess, errorFunction);
-}
-
-function home(dimension){
-    $.get(serverAddress+"services/printers/home" + dimension + "/" + printerName).then(gCodeSuccess, errorFunction)
-}
-
-function moveZ(step){
-    move("Z", step);
-}
-
-function homeZ(){
-    home("Z");
-}
-
-function executeGCode(gcode, gCodeSuccess, errorFunction){
-    $http.get("services/printers/executeGCode/" + printerName + "/" + gcode).then(gCodeSuccess, errorFunction)
+    cwsFile.gCodeContent(function(content){
+        var lines = content.split("\r\n");
+        processContent(cwsFile.zip, lines);
+    });
 }
 
 $(function(){
@@ -45,32 +27,19 @@ $("#print_file").on("change", function(evt) {
     $('#print_loading').show();
 
     function handleFile(f) {
-
-        JSZip.loadAsync(f)                                   // 1) read the Blob
-        .then(function(zip) {
-
-            var gcodeName = getGcodeName(zip);
-
-            zipFileContent(zip, gcodeName, function(content){
-
-
-                //g = new gcode();
-                //g.parseLines(content);
-                var layerNumber = "0001";
-
-                zipImage(zip, gcodeName.replace(".gcode", "")+layerNumber+".png", function(data){
-                        var img = document.createElement("IMG");
-                        img.src = "data:image/png;base64," + data;
-                        img.id = "current_png";
-                        document.getElementById('pngDisplay').appendChild(img);
-                })
-
+        cwsFile = new CwsFile();
+        cwsFile.load(f, function(zip){
+            cwsFile.firstImage(function(data){
+                if($("#pngDisplay>img").length){
+                    $("#pngDisplay>img").attr("src", "data:image/png;base64,"+data);
+                }else{
+                    $("#pngDisplay").html("<img src='data:image/png;base64,"+data+"'>");
+                }
                 $('#print_loading').hide();
                 $( "#slider" ).show();
                 $( "#slider" ).slider();
-            })
-        })
-
+            });
+        });
     }
 
     var files = evt.target.files;
@@ -83,3 +52,49 @@ $("#print_file").on("change", function(evt) {
 
 });
 
+
+function processContent(zip, lines){
+    var gcodeName = getGcodeName(zip);
+    for(i=0;i<lines.length;i++) {
+        var line = lines[i].trim();
+        if(line.indexOf(";<Slice> Blank") == 0){
+            console.log("Show blank");
+            if($("#pngDisplay>img").length){
+                $("#pngDisplay>img").attr("src", "data:image/png;base64,"+blankPng);
+            }else{
+                $("#pngDisplay").html("<img src='data:image/png;base64,"+blankPng+"'>");
+            }
+        }else if(line.indexOf(";<Slice> ") == 0){
+            var layerNumber = line.replace(";<Slice> ", "");
+            console.log("Printing layer " + layerNumber);
+            while(layerNumber.length < 4) layerNumber = "0"+ layerNumber;
+            zipImage(zip, gcodeName.replace(".gcode", "")+layerNumber+".png", function(data){
+                if($("#pngDisplay>img").length){
+                    $("#pngDisplay>img").attr("src", "data:image/png;base64,"+data);
+                }else{
+                    $("#pngDisplay").html("<img src='data:image/png;base64,"+data+"'>");
+                }
+            });
+        }else if(line.indexOf(";<Delay>") == 0){
+            var sleepMs = parseInt(line.replace(";<Delay> ", ""));
+            console.log("Sleep " + sleepMs);
+            lines.splice(0, i+1);
+            setTimeout(processContent.bind(null, zip, lines), sleepMs);
+            break;
+        }else if(line[0] != ";"){
+            var gCode = line.split(";")[0];
+            console.log("GCode: " + gCode);
+            executeGCode(gCode, function(){
+                console.log("Execute GCode success!");
+            }, function(){
+                console.log("Execute GCode failure!");
+            });
+        }
+    }
+}
+
+function createBlankPng(width,height){
+    var p = new PNGlib(width,height, 2); // construcor takes height, weight and color-depth
+    var background = p.color(0, 0, 0, 255); // set the background transparent
+    return p.getBase64();
+}

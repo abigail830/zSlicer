@@ -111,16 +111,6 @@ function getGcodeName(zip){
     return name;
 }
 
-function zipFileContent(zip, filename, callback){
-    var fileContent = null
-    zip.files[filename].async('string').then(callback);
-}
-
-function zipImage(zip, filename, callback){
-    var fileContent = null
-    zip.files[filename].async('base64').then(callback);
-}
-
 function updateExposureTime(layer, elem){
     var exposureTime = $(elem).val();
     var layerAction = g.getLayerAction(layer);

@@ -26,10 +26,31 @@ Mustache.tags = ['[[', ']]'];
 
 LINE_SEPARATOR="\r\n";
 
+var cwsFile;
 
 function render(template, target, data){
     var rendered = Mustache.render(template.html(),data);
     target.html(rendered);
+}
+
+function CwsFile(){
+    this.path;
+    this.modelName;
+    this.zip;
+    this.load = function(file, callback){
+        this.file = file;
+        JSZip.loadAsync(file).then(function(zip){
+            cwsFile.modelName = getGcodeName(zip).replace(".gcode", "");
+            cwsFile.zip = zip;
+            callback(zip);
+        });
+    }
+    this.firstImage = function(callback){
+        zipImage(this.zip, this.modelName+"0000.png", callback);
+    }
+    this.gCodeContent = function(callback){
+        zipFileContent(this.zip, this.modelName+".gcode", callback);
+    }
 }
 
 function layerAction(){
@@ -223,4 +244,22 @@ function msToTime(duration) {
         seconds = (seconds < 10) ? "0" + seconds : seconds;
 
         return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+}
+
+function zipImage(zip, filename, callback){
+    zip.files[filename].async('base64').then(callback);
+}
+
+function zipFileContent(zip, filename, callback){
+    zip.files[filename].async('string').then(callback);
+}
+
+function getGcodeName(zip){
+        var name = null;
+        Object.keys(zip.files).forEach(function (filename) {
+            if(filename.match(/.gcode$/)){
+                name = filename;
+            }
+        });
+        return name;
     }
