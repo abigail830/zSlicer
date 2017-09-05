@@ -16,6 +16,8 @@
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/narrow-jumbotron.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/main.css' %}"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 
 </head>
 
@@ -43,10 +45,10 @@
     <div id="file-input-block" class="container">
 
         <div class="row justify-content-md-center">
-            <div class="col-md-5">
+            <div class="col-auto col-auto">
                 <h5 class="file-input-header">Please select the .cws file: </h5>
             </div>
-            <div class="col-md-4">
+            <div class="col-4">
                 <label class="custom-file">
                     <input type="file" id="print_file" class="custom-file-input">
                     <span class="custom-file-control"></span>
@@ -62,7 +64,6 @@
                     <span class="glyphicon glyphicon-align-center"></span> Reset
                 </button>
             </div>
-            <div class="col-md-1"></div>
         </div>
         <br/>
     </div>
@@ -104,7 +105,8 @@
             <div class="col-10">
                 <div id="pngDisplay">
                 </div>
-
+                <br/>
+                <div id="slider"></div>
             </div>
 
         </div>
@@ -129,5 +131,6 @@
 <script src="{% static 'cwsviewer/js/jszip.js' %}"></script>
 <script src="{% static 'cwsviewer/js/jszip-utils.js' %}"></script>
 <script src="{% static 'cwsviewer/js/print.js' %}"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </body>
 </html>

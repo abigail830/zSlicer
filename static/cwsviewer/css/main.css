@@ -41,6 +41,6 @@
 
 #current_png {
     height: auto;
-    width: 90%;
+    width: 100%;
     object-fit: contain;
 }

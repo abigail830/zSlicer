@@ -3,8 +3,14 @@ var printerName = "Photocentric%2010";
 
 function do_print_reset(){
     $('#print_loading').hide();
+    $( "#slider" ).hide();
 
+    var pngDiv = document.getElementById('pngDisplay');
+    while (pngDiv.hasChildNodes()) {
+        pngDiv.removeChild(pngDiv.lastChild);
+    }
 }
+
 
 function do_print(){
     alert("here in do_print");
@@ -60,6 +66,8 @@ $("#print_file").on("change", function(evt) {
                 })
 
                 $('#print_loading').hide();
+                $( "#slider" ).show();
+                $( "#slider" ).slider();
             })
         })
 
@@ -74,3 +82,4 @@ $("#print_file").on("change", function(evt) {
     this.value = null;
 
 });
+
