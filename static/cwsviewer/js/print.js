@@ -33,7 +33,7 @@ $("#print_file").on("change", function(evt) {
                 if($("#pngDisplay>img").length){
                     $("#pngDisplay>img").attr("src", "data:image/png;base64,"+data);
                 }else{
-                    $("#pngDisplay").html("<img src='data:image/png;base64,"+data+"'>");
+                    $("#pngDisplay").html("<img id='current_png' src='data:image/png;base64,"+data+"'>");
                 }
                 $('#print_loading').hide();
                 $( "#slider" ).show();
