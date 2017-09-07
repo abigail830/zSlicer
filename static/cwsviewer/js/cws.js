@@ -37,16 +37,20 @@ function CwsFile(){
     this.path;
     this.modelName;
     this.zip;
+
     this.load = function(file, callback){
         this.file = file;
+        this.loaded = true;
+
         JSZip.loadAsync(file).then(function(zip){
             cwsFile.modelName = getGcodeName(zip).replace(".gcode", "");
             cwsFile.zip = zip;
             callback(zip);
         });
     }
-    this.firstImage = function(callback){
-        zipImage(this.zip, this.modelName+"0000.png", callback);
+
+    this.showImage = function(layerNumber, callback){
+        zipImage(this.zip, this.modelName+ layerNumber+".png", callback);
     }
     this.gCodeContent = function(callback){
         zipFileContent(this.zip, this.modelName+".gcode", callback);
@@ -244,6 +248,20 @@ function msToTime(duration) {
         seconds = (seconds < 10) ? "0" + seconds : seconds;
 
         return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+}
+
+function getPngSize(zip){
+    var pngCount = 0;
+
+    var zipFileNameArray = Object.keys(zip.files);
+
+    for(var i = 0, len = zipFileNameArray.length; i < len; i++) {
+        if( zipFileNameArray[i].indexOf("png") !== -1)
+                pngCount++;
+    }
+
+    return pngCount;
+
 }
 
 function zipImage(zip, filename, callback){

@@ -1,6 +1,7 @@
 var blankPng = createBlankPng(1333, 750);
 
 function do_print_reset(){
+
     $('#print_loading').hide();
     $( "#slider" ).hide();
 
@@ -8,6 +9,7 @@ function do_print_reset(){
     while (pngDiv.hasChildNodes()) {
         pngDiv.removeChild(pngDiv.lastChild);
     }
+
 }
 
 
@@ -22,6 +24,23 @@ $(function(){
     do_print_reset();
 });
 
+$( "#slider" ).slider({
+          min: 0,
+          value: 0,
+          max: 1
+});
+
+function displayPngInDiv(data){
+    if($("#pngDisplay>img").length){
+        $("#pngDisplay>img").attr("src", "data:image/png;base64,"+data);
+    }else{
+        $("#pngDisplay").html("<img id='current_png' src='data:image/png;base64,"+data+"'>");
+    }
+
+}
+
+function pad(n) { return ("0000" + n).slice(-4); }
+
 $("#print_file").on("change", function(evt) {
 
     $('#print_loading').show();
@@ -29,16 +48,23 @@ $("#print_file").on("change", function(evt) {
     function handleFile(f) {
         cwsFile = new CwsFile();
         cwsFile.load(f, function(zip){
-            cwsFile.firstImage(function(data){
-                if($("#pngDisplay>img").length){
-                    $("#pngDisplay>img").attr("src", "data:image/png;base64,"+data);
-                }else{
-                    $("#pngDisplay").html("<img id='current_png' src='data:image/png;base64,"+data+"'>");
-                }
-                $('#print_loading').hide();
-                $( "#slider" ).show();
-                $( "#slider" ).slider();
+
+            cwsFile.showImage("0000", function(data){
+                displayPngInDiv(data)
             });
+
+            pngSize = getPngSize(zip);
+            $( "#slider" ).slider( "option", "max", pngSize );
+            $( "#slider" ).on( "slidechange", function( event, ui ) {
+                   var layerNo = pad(ui.value);
+                   cwsFile.showImage(layerNo, function(data){
+                         displayPngInDiv(data);
+                    });
+            });
+
+            $('#print_loading').hide();
+            $( "#slider" ).show();
+
         });
     }
 
