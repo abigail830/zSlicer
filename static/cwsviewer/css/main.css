@@ -44,3 +44,11 @@
     width: 100%;
     object-fit: contain;
 }
+
+#currentLayer {
+    float: left;
+}
+
+#totalLayer {
+    float: right;
+}

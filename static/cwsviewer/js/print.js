@@ -1,15 +1,18 @@
 var blankPng = createBlankPng(1333, 750);
 
+var slider  = $('#slider');
+
+
 function do_print_reset(){
 
     $('#print_loading').hide();
-    $( "#slider" ).hide();
+    $('#labelBlock').hide();
+    slider.hide();
 
     var pngDiv = document.getElementById('pngDisplay');
     while (pngDiv.hasChildNodes()) {
         pngDiv.removeChild(pngDiv.lastChild);
     }
-
 }
 
 
@@ -54,16 +57,22 @@ $("#print_file").on("change", function(evt) {
             });
 
             pngSize = getPngSize(zip);
-            $( "#slider" ).slider( "option", "max", pngSize );
-            $( "#slider" ).on( "slidechange", function( event, ui ) {
+            slider.slider( "option", "max", pngSize );
+            document.getElementById("totalLayer").innerHTML = "Total layers: "+ pngSize;
+            document.getElementById("currentLayer").innerHTML = "Current layer: 0";
+
+            slider.on( "slidechange", function( event, ui ) {
                    var layerNo = pad(ui.value);
+                   document.getElementById("currentLayer").innerHTML = "Current layer: "+ ui.value;
+
                    cwsFile.showImage(layerNo, function(data){
                          displayPngInDiv(data);
                     });
             });
 
             $('#print_loading').hide();
-            $( "#slider" ).show();
+            slider.show();
+            $('#labelBlock').show();
 
         });
     }
