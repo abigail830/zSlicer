@@ -4,7 +4,7 @@ var slider  = $('#slider');
 
 
 function do_print_reset(){
-
+    $('#printDisplay').hide();
     $('#print_loading').hide();
     $('#labelBlock').hide();
     slider.hide();
@@ -17,6 +17,8 @@ function do_print_reset(){
 
 
 function do_print(){
+    $('#printDisplay').show();
+
     cwsFile.gCodeContent(function(content){
         var lines = content.split("\r\n");
         processContent(cwsFile.zip, lines);
@@ -90,24 +92,30 @@ $("#print_file").on("change", function(evt) {
 
 function processContent(zip, lines){
     var gcodeName = getGcodeName(zip);
+
+    easyDialog.open({
+        container : 'printDisplay',
+        fixed : false
+    });
+
     for(i=0;i<lines.length;i++) {
         var line = lines[i].trim();
         if(line.indexOf(";<Slice> Blank") == 0){
             console.log("Show blank");
-            if($("#pngDisplay>img").length){
-                $("#pngDisplay>img").attr("src", "data:image/png;base64,"+blankPng);
+            if($("#printDisplay>img").length){
+                $("#printDisplay>img").attr("src", "data:image/png;base64,"+blankPng);
             }else{
-                $("#pngDisplay").html("<img src='data:image/png;base64,"+blankPng+"'>");
+                $("#printDisplay").html("<img src='data:image/png;base64,"+blankPng+"'>");
             }
         }else if(line.indexOf(";<Slice> ") == 0){
             var layerNumber = line.replace(";<Slice> ", "");
             console.log("Printing layer " + layerNumber);
             while(layerNumber.length < 4) layerNumber = "0"+ layerNumber;
             zipImage(zip, gcodeName.replace(".gcode", "")+layerNumber+".png", function(data){
-                if($("#pngDisplay>img").length){
-                    $("#pngDisplay>img").attr("src", "data:image/png;base64,"+data);
+                if($("#printDisplay>img").length){
+                    $("#printDisplay>img").attr("src", "data:image/png;base64,"+data);
                 }else{
-                    $("#pngDisplay").html("<img src='data:image/png;base64,"+data+"'>");
+                    $("#printDisplay").html("<img src='data:image/png;base64,"+data+"'>");
                 }
             });
         }else if(line.indexOf(";<Delay>") == 0){
@@ -126,6 +134,8 @@ function processContent(zip, lines){
             });
         }
     }
+
+    //easyDialog.close();
 }
 
 function createBlankPng(width,height){

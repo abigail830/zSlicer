@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/bootstrap.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/bootstrap-editable.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/font-awesome.min.css' %}"/>
-
+    <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/easydialog.css' %}"/>
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/narrow-jumbotron.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/main.css' %}"/>
@@ -114,6 +114,10 @@
             </div>
 
         </div>
+
+        <div class="row">
+            <div id="printDisplay"></div>
+        </div>
     </div>
 
 
@@ -137,6 +141,6 @@
 <script src="{% static 'cwsviewer/js/jszip-utils.js' %}"></script>
 <script src="{% static 'cwsviewer/js/machineCtrl.js' %}"></script>
 <script src="{% static 'cwsviewer/js/print.js' %}"></script>
-
+<script src="{% static 'cwsviewer/js/easydialog.min.js' %}"></script>
 </body>
 </html>
