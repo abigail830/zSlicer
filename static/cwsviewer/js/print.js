@@ -1,4 +1,4 @@
-var blankPng = createBlankPng(1333, 750);
+var blankPng = createBlankPng(1333, 1000);
 
 var slider  = $('#slider');
 
