@@ -7,12 +7,12 @@ function do_print_reset(){
     $('#printDisplay').hide();
     $('#print_loading').hide();
     $('#labelBlock').hide();
+    $('#pngDisplay').hide();
+
+    slider.slider( "option", "value",  );
     slider.hide();
 
-    var pngDiv = document.getElementById('pngDisplay');
-    while (pngDiv.hasChildNodes()) {
-        pngDiv.removeChild(pngDiv.lastChild);
-    }
+    cwsFile = new CwsFile();
 }
 
 
@@ -35,14 +35,6 @@ $( "#slider" ).slider({
           max: 1
 });
 
-function displayPngInDiv(data){
-    if($("#pngDisplay>img").length){
-        $("#pngDisplay>img").attr("src", "data:image/png;base64,"+data);
-    }else{
-        $("#pngDisplay").html("<img id='current_png' src='data:image/png;base64,"+data+"'>");
-    }
-
-}
 
 function pad(n) { return ("0000" + n).slice(-4); }
 
@@ -55,7 +47,7 @@ $("#print_file").on("change", function(evt) {
         cwsFile.load(f, function(zip){
 
             cwsFile.showImage("0000", function(data){
-                displayPngInDiv(data)
+                $("#pngImage").attr("src", "data:image/png;base64,"+data);
             });
 
             pngSize = getPngSize(zip);
@@ -68,13 +60,14 @@ $("#print_file").on("change", function(evt) {
                    document.getElementById("currentLayer").innerHTML = "Current layer: "+ ui.value;
 
                    cwsFile.showImage(layerNo, function(data){
-                         displayPngInDiv(data);
+                        $("#pngImage").attr("src", "data:image/png;base64,"+data);
                     });
             });
 
             $('#print_loading').hide();
             slider.show();
             $('#labelBlock').show();
+            $('#pngDisplay').show();
 
         });
     }
@@ -93,30 +86,20 @@ $("#print_file").on("change", function(evt) {
 function processContent(zip, lines){
     var gcodeName = getGcodeName(zip);
 
-    easyDialog.open({
-        container : 'printDisplay',
-        fixed : false
-    });
+
 
     for(i=0;i<lines.length;i++) {
         var line = lines[i].trim();
         if(line.indexOf(";<Slice> Blank") == 0){
             console.log("Show blank");
-            if($("#printDisplay>img").length){
-                $("#printDisplay>img").attr("src", "data:image/png;base64,"+blankPng);
-            }else{
-                $("#printDisplay").html("<img src='data:image/png;base64,"+blankPng+"'>");
-            }
+            $("#printImage").attr("src", "data:image/png;base64,"+blankPng);
+
         }else if(line.indexOf(";<Slice> ") == 0){
             var layerNumber = line.replace(";<Slice> ", "");
             console.log("Printing layer " + layerNumber);
             while(layerNumber.length < 4) layerNumber = "0"+ layerNumber;
             zipImage(zip, gcodeName.replace(".gcode", "")+layerNumber+".png", function(data){
-                if($("#printDisplay>img").length){
-                    $("#printDisplay>img").attr("src", "data:image/png;base64,"+data);
-                }else{
-                    $("#printDisplay").html("<img src='data:image/png;base64,"+data+"'>");
-                }
+                $("#printImage").attr("src", "data:image/png;base64,"+data);
             });
         }else if(line.indexOf(";<Delay>") == 0){
             var sleepMs = parseInt(line.replace(";<Delay> ", ""));
@@ -135,7 +118,7 @@ function processContent(zip, lines){
         }
     }
 
-    //easyDialog.close();
+
 }
 
 function createBlankPng(width,height){
