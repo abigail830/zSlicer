@@ -19,6 +19,12 @@ function do_print_reset(){
 function do_print(){
     $('#printDisplay').show();
 
+    window.location.href = "#printDisplay";
+
+    // $('html, body').animate({
+    //    scrollTop: $("#printDisplay").offset().top
+    //}, 2000);
+
     cwsFile.gCodeContent(function(content){
         var lines = content.split("\r\n");
         processContent(cwsFile.zip, lines);
