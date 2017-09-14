@@ -9,8 +9,6 @@ var g;
 
 var cwsFile;
 
-screen.orientation.lock('landscape');
-
 $analysisButton.on('click', function(e) {
     startAnalysis();
 });
