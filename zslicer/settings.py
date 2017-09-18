@@ -139,7 +139,7 @@ INSTALLED_APPS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'zslicer',
+        'NAME': 'beets3d$zslicer',
         'USER': 'beets3d',
         'PASSWORD': 'Asdfzxcv88',
         'HOST':'beets3d.mysql.pythonanywhere-services.com',
