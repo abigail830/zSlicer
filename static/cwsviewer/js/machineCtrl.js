@@ -1,12 +1,20 @@
-var serverAddress = "http://192.168.199.109/";
-var printerName = "Photocentric%2010";
+var serverAddress = "http://192.168.3.123:9091/";
+var printerName = "PhonePrint";
 
 function move(dimension, step) {
-	$.get(serverAddress+"services/printers/move" + dimension + "/" +printerName + "/" + step).then(gCodeSuccess, errorFunction);
+	$.get(serverAddress+"services/printers/move" + dimension + "/" +printerName + "/" + step).then(function(){
+	    console.log("Move " + step + " success");
+	}, function(){
+	    console.error("Move " + step + " fail");
+	});
 }
 
 function home(dimension){
-    $.get(serverAddress+"services/printers/home" + dimension + "/" + printerName).then(gCodeSuccess, errorFunction)
+    $.get(serverAddress+"services/printers/home" + dimension + "/" + printerName).then(function(){
+	    console.log("Home  success");
+	}, function(){
+	    console.error("Move fail");
+	});
 }
 
 function moveZ(step){
