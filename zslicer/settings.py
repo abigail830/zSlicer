@@ -126,3 +126,23 @@ STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder"
 )
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+)
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'zslicer',
+        'USER': 'beets3d',
+        'PASSWORD': 'Asdfzxcv88',
+        'HOST':'beets3d.mysql.pythonanywhere-services.com',
+        'PORT':'3306',
+    }
+}
