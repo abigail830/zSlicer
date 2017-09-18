@@ -223,13 +223,15 @@ function gcode(){
         var lineIdx = 1;
         action.liftDistance = parseFloat(liftLines[lineIdx].split(" ")[1].replace("Z", "").trim());
         action.liftSpeed = parseFloat(liftLines[lineIdx].split(" ")[2].replace("F", "").trim());
-        if(liftLines[2].indexOf("<Delay>") > 0){
+        if(liftLines[lineIdx+1].indexOf("<Delay>") > 0){
             action.liftDelay = parseInt(liftLines[++lineIdx].replace(";<Delay> ", "").trim());
         }
 
-        action.retractDistance = parseFloat(liftLines[++lineIdx].split(" ")[1].replace("Z", "").trim());
-        action.retractSpeed = parseFloat(liftLines[lineIdx].split(" ")[2].replace("F", "").trim());
-        action.retractDelay = parseInt(liftLines[++lineIdx].replace(";<Delay> ", "").trim());
+        if(liftLines[lineIdx+1] && liftLines[lineIdx+1].trim() != ""){
+            action.retractDistance = parseFloat(liftLines[++lineIdx].split(" ")[1].replace("Z", "").trim());
+            action.retractSpeed = parseFloat(liftLines[lineIdx].split(" ")[2].replace("F", "").trim());
+            action.retractDelay = parseInt(liftLines[++lineIdx].replace(";<Delay> ", "").trim());
+        }
 
         action.calcProcessTime();
         return action;
@@ -273,11 +275,11 @@ function zipFileContent(zip, filename, callback){
 }
 
 function getGcodeName(zip){
-        var name = null;
-        Object.keys(zip.files).forEach(function (filename) {
-            if(filename.match(/.gcode$/)){
-                name = filename;
-            }
-        });
-        return name;
-    }
+    var name = null;
+    Object.keys(zip.files).forEach(function (filename) {
+        if(filename.match(/.gcode$/)){
+            name = filename;
+        }
+    });
+    return name;
+}
