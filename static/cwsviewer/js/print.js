@@ -9,8 +9,9 @@ function do_print_reset(){
     $('#labelBlock').hide();
     $('#pngDisplay').hide();
 
-    $('#Connect').show();
-    $('#Print').hide();
+    $('#Connect').show().addClass('navActive');
+    $('#Print').hide().removeClass('navActive');
+    $('#layerPreviewMenu').hide();
 
     slider.slider( "option", "value",  );
     slider.hide();
@@ -46,23 +47,15 @@ $( "#slider" ).slider({
 $('#leftMenu a').click(function() {
 
     /* hide any previous active nav and remove activeClass, fails quietly if none found*/
-    //$('.active').hide().removeClass('active');
-    $('#leftMenu a').removeClass();
-    $($(this).attr('href')).addClass('active');
+    $('.navActive').hide().removeClass('navActive');
+    $('#leftMenu a').removeClass('active');
 
     /* create ID selector from this link */
     var id = $(this).attr('href') /* or using native script   this.href*/
 
-    if(id=='#Connect'){
-        $('#Connect').show();
-        $('#Print').hide();
-    }else{
-        $('#Connect').hide();
-        $('#Print').show();
-    }
-
     /* show proper item and add active class used to find open element above*/
-    //$(id).show().addClass('active');
+    $(id).show().addClass('navActive');
+    $(this).addClass('active');
 
     return false; /* prevent browser default events for anchor tag */
 
@@ -101,6 +94,8 @@ $("#print_file").on("change", function(evt) {
             slider.show();
             $('#labelBlock').show();
             $('#pngDisplay').show();
+            $('#layerPreviewMenu').show();
+            $('#layerPreviewMenu').click();
 
         });
     }
@@ -118,8 +113,6 @@ $("#print_file").on("change", function(evt) {
 
 function processContent(zip, lines){
     var gcodeName = getGcodeName(zip);
-
-
 
     for(i=0;i<lines.length;i++) {
         var line = lines[i].trim();
