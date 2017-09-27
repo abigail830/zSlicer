@@ -66,6 +66,15 @@ width:100%;
 height:auto;
 top:0px;
 left:0px;
+}
 
+#leftMenu a{
+        display: block;
+        padding: 10px 15px;
+        border: 1px;
+        text-decoration: none;
+}
 
+#leftMenu ul li:hover{
+    background-color: @accent_hover;
 }

@@ -9,6 +9,9 @@ function do_print_reset(){
     $('#labelBlock').hide();
     $('#pngDisplay').hide();
 
+    $('#Connect').show();
+    $('#Print').hide();
+
     slider.slider( "option", "value",  );
     slider.hide();
 
@@ -37,6 +40,32 @@ $( "#slider" ).slider({
           min: 0,
           value: 0,
           max: 1
+});
+
+
+$('#leftMenu a').click(function() {
+
+    /* hide any previous active nav and remove activeClass, fails quietly if none found*/
+    //$('.active').hide().removeClass('active');
+    $('#leftMenu a').removeClass();
+    $($(this).attr('href')).addClass('active');
+
+    /* create ID selector from this link */
+    var id = $(this).attr('href') /* or using native script   this.href*/
+
+    if(id=='#Connect'){
+        $('#Connect').show();
+        $('#Print').hide();
+    }else{
+        $('#Connect').hide();
+        $('#Print').show();
+    }
+
+    /* show proper item and add active class used to find open element above*/
+    //$(id).show().addClass('active');
+
+    return false; /* prevent browser default events for anchor tag */
+
 });
 
 

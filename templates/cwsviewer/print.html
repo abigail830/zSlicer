@@ -17,6 +17,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/main.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'cwsviewer/css/jquery-ui.css' %}"/>
 
+    <link rel="import" href="index.html">
+    <link rel="import" href="config.html">
+
 </head>
 
 <body>
@@ -44,9 +47,10 @@
         <h3 class="text-muted">zSlicer</h3>
     </div>
 
-    <div id="file-input-block" class="container">
-
-        <div class="row justify-content-md-center">
+    <div class="container">
+        <div class="row">
+            <div id="file-input-block" class="container">
+                <div class="row justify-content-md-center">
             <div class="col-auto col-auto">
                 <h5 class="file-input-header">Please select the .cws file: </h5>
             </div>
@@ -67,58 +71,89 @@
                 </button>
             </div>
         </div>
-        <br/>
-    </div>
-
-
-    <div class="jumbotron" id="print_result_block">
-
-        <div id="print_loading">
-            <img id="loading-image" src="../../static/cwsviewer/image/loading.gif"/>
-        </div>
-
-        <div class="row">
-            <div class="col-2">
-                <div class="list-group-item">
-                    <i class="fa fa-2x fa-arrows-v pull-left"></i>
-                    <h4>Z Axis</h4>
-                    <span class="btn-group-vertical clearfix" style="display:inline-grid;">
-						<span class="btn btn-sm btn-danger fa fa-angle-double-up"
-                              onclick="moveZ(50)"> 50</span>
-						<span class="btn btn-sm btn-danger fa fa-angle-up"
-                              onclick="moveZ(10)"> 10</span>
-						<span class="btn btn-sm btn-danger fa fa-angle-up"
-                              onclick="moveZ(1)"> 1</span>
-						<span class="btn btn-sm btn-danger fa fa-angle-up"
-                              onclick="moveZ(.025)"> .025</span>
-						<span class="btn btn-sm btn-primary fa fa-home"
-                              onclick="homeZ()"></span>
-						<span class="btn btn-sm btn-success fa fa-angle-down"
-                              onclick="moveZ(-.025)"> .025</span>
-						<span class="btn btn-sm btn-success fa fa-angle-down"
-                              onclick="moveZ(-1)"> 1</span>
-						<span class="btn btn-sm btn-success fa fa-angle-down"
-                              onclick="moveZ(-10)"> 10</span>
-						<span class="btn btn-sm btn-success fa fa-angle-double-down"
-                              onclick="moveZ(-50)"> 50</span>
-                    </span>
-                </div>
-            </div>
-            <div class="col-10">
-                <div id="pngDisplay">
-                    <img id="pngImage"/>
-                </div>
                 <br/>
-                <div id="labelBlock" class="clearfix">
-                    <h6 id="currentLayer"></h6>
-                    <h6 id="totalLayer"></h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-lg-2">
+                <div class="bootstrap-vertical-nav">
+                    <div id="leftMenu">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#Connect">Printer Config</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#Print">Layer Preview</a>
+                            </li>
+                        </ul>
+                </div>
+            </div>
+            </div>
+            <div class="col-md-10 col-lg-10 jumbotron">
+                <div id="print_result_block">
+
+                    <div id="print_loading">
+                        <img id="loading-image" src="../../static/cwsviewer/image/loading.gif"/>
+                </div>
+
+                    <div id="Connect" class="container">
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+                            <i class="fa fa-2x fa-arrows-v pull-left"></i>
+                            <h4>Moving Z Axis</h4>
+                        </div>
+                        <div class="row">
+                            <div class="btn-group" role="group" aria-label="Control Z-Axis Button">
+                                <button type="button" class="btn btn-sm btn-danger fa fa-angle-double-up"
+                                        onclick="moveZ(50)"> 50
+                                </button>
+                                <button type="button" class="btn btn-sm btn-danger fa fa-angle-up"
+                                        onclick="moveZ(10)"> 10
+                                </button>
+                                <button type="button" class="btn btn-sm btn-danger fa fa-angle-up"
+                                        onclick="moveZ(1)"> 1
+                                </button>
+                                <button type="button" class="btn btn-sm btn-danger fa fa-angle-up"
+                                        onclick="moveZ(.025)"> .025
+                                </button>
+                                <button type="button" class="btn btn-sm btn-primary fa fa-home"
+                                        onclick="homeZ()"></button>
+                                <button type="button" class="btn btn-sm btn-success fa fa-angle-down"
+                                        onclick="moveZ(-.025)"> .025
+                                </button>
+                                <button type="button" class="btn btn-sm btn-success fa fa-angle-down"
+                                        onclick="moveZ(-1)"> 1
+                                </button>
+                                <button type="button" class="btn btn-sm btn-success fa fa-angle-down"
+                                        onclick="moveZ(-10)"> 10
+                                </button>
+                                <button type="button" class="btn btn-sm btn-success fa fa-angle-double-down"
+                                        onclick="moveZ(-50)"> 50
+                                </button>
+                            </div>
+                        </div>
+                </div>
+
+                    <div id="Print">
+                        <h3>Print</h3>
+
+                        <div id="pngDisplay">
+                            <img id="pngImage"/>
+                        </div>
+                        <br/>
+                        <div id="labelBlock" class="clearfix">
+                            <h6 id="currentLayer"></h6>
+                            <h6 id="totalLayer"></h6>
+                        </div>
+                        <div id="slider" name="foo"></div>
+
+                    </div>
 
                 </div>
-                <div id="slider" name="foo"></div>
             </div>
-
-        </div>
-
+    </div>
     </div>
 
     <footer class="footer">
