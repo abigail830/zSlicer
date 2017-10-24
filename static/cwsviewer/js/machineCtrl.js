@@ -1,4 +1,4 @@
-var serverAddress = "http://192.168.3.123:9091/";
+var serverAddress = "http://192.168.8.100:9091/";
 var printerName = "PhonePrint";
 
 function move(dimension, step) {
